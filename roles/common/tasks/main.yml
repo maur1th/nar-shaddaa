@@ -1,0 +1,16 @@
+---
+- include: bootstrap_python2.yml
+- name: gather facts
+  setup:
+- name: install dependencies
+  dnf:
+    name: "{{item}}"
+  with_items:
+    - libselinux-python
+    - policycoreutils-python
+    - python-firewall
+- name: create user
+  user:
+    name: "{{local_user}}"
+    group: "{{local_user}}"
+...
