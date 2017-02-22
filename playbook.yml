@@ -7,7 +7,6 @@
     dependencies:
       - libselinux-python
       - policycoreutils-python
-      - samba
       - python-firewall
     storage_location: /mnt/storage
 

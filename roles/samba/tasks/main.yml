@@ -1,4 +1,7 @@
 ---
+- name: install samba
+  dnf:
+    name: samba
 - name: create storage location
   file:
     path: "{{storage_location}}"
