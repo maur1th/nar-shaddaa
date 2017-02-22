@@ -1,0 +1,29 @@
+---
+- name: create storage location
+  file:
+    path: "{{storage_location}}"
+    state: directory
+    owner: "{{local_user}}"
+    group: "{{local_user}}"
+    mode: 0755
+- name:
+  sefcontext:
+    target: "{{storage_location}}(/.*)?"
+    setype: samba_share_t
+- name: install samba configuration
+  template:
+    src: smb.conf
+    dest: /etc/samba/
+  notify: restart samba
+- name: enable and start services
+  service:
+    name: "{{item}}"
+    enabled: yes
+    state: started
+  with_items: "{{samba_services}}"
+- name: add firewall rules
+  firewalld:
+    service: samba
+    permanent: true
+    state: enabled
+...

@@ -1,0 +1,25 @@
+---
+- hosts: nar-shaddaa
+  gather_facts: no
+  become: yes
+
+  vars:
+    dependencies:
+      - libselinux-python
+      - policycoreutils-python
+      - samba
+      - python-firewall
+    storage_location: /mnt/storage
+
+  tasks:
+    - include: bootstrap_python2.yml
+    - name: gather facts
+      setup:
+    - name: install dependencies
+      dnf:
+        name: "{{item}}"
+      with_items: "{{dependencies}}"
+
+  roles:
+    - samba
+...

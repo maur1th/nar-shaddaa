@@ -1,0 +1,6 @@
+[nar-shaddaa]
+192.168.1.56
+
+[nar-shaddaa:vars]
+ansible_user=root
+local_user=tm
