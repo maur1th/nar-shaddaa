@@ -9,10 +9,14 @@
     owner: "{{local_user}}"
     group: "{{local_user}}"
     mode: 0755
-- name:
+- name: SELinux add file context mapping definition
   sefcontext:
     target: "{{storage_location}}(/.*)?"
     setype: samba_share_t
+  register: filecontext
+- name: SELinux restore default security context
+  command: restorecon -R -v {{storage_location}}
+  when: filecontext.changed
 - name: install samba configuration
   template:
     src: smb.conf
