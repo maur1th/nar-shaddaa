@@ -32,5 +32,6 @@
   firewalld:
     service: samba
     permanent: true
+    immediate: yes
     state: enabled
 ...
