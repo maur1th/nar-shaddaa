@@ -1,0 +1,21 @@
+---
+- name: install transmission-daemon
+  dnf:
+    name: transmission-daemon
+- name: install configuration
+  template:
+    src: settings.json
+    dest: /var/lib/transmission/.config/transmission-daemon/
+  notify: restart transmission
+- name: enable and start services
+  service:
+    name: transmission-daemon.service
+    enabled: yes
+    state: started
+- name: add firewall rules
+  firewalld:
+    port: 9091/tcp
+    permanent: true
+    immediate: yes
+    state: enabled
+...
