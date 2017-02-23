@@ -6,9 +6,15 @@
   file:
     path: "{{storage_location}}"
     state: directory
-    owner: "{{local_user}}"
-    group: "{{local_user}}"
-    mode: 0755
+- name: set {{local_user}} user acl of {{storage_location}}
+  acl:
+    path: "{{storage_location}}"
+    etype: user
+    entity: "{{local_user}}"
+    permissions: rwX
+    state: present
+    default: "{{item}}"
+  with_items: [yes, no]
 - name: SELinux add file context mapping definition
   sefcontext:
     target: "{{storage_location}}(/.*)?"

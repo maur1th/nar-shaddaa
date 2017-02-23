@@ -2,6 +2,15 @@
 - name: install transmission-daemon
   dnf:
     name: transmission-daemon
+- name: set transmission user acl of {{storage_location}}
+  acl:
+    path: "{{storage_location}}"
+    etype: user
+    entity: transmission
+    permissions: rwX
+    state: present
+    default: "{{item}}"
+  with_items: [yes, no]
 - name: install configuration
   template:
     src: settings.json
