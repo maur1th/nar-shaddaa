@@ -1,0 +1,10 @@
+---
+version: "3"
+services:
+  ansible:
+    build: .
+    volumes:
+      - .:/ansible
+      - ~/.ssh:/root/.ssh
+    command: ansible-playbook -i hosts playbook.yml
+...
