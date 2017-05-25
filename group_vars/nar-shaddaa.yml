@@ -1,4 +1,4 @@
 ---
 local_user: tm
-storage_location: /storage
+storage_location: /mnt/storage
 ...
