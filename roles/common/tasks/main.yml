@@ -6,6 +6,7 @@
   dnf:
     name: "{{item}}"
   with_items:
+    - htop
     - libselinux-python
     - policycoreutils-python
     - python-firewall
