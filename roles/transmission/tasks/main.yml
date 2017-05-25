@@ -16,10 +16,14 @@
     path: /var/lib/transmission/.config/transmission-daemon/
     state: directory
     mode: 0755
+    owner: transmission
+    group: transmission
 - name: install configuration
   template:
     src: settings.json
     dest: /var/lib/transmission/.config/transmission-daemon/
+    owner: transmission
+    group: transmission
   notify: restart transmission
 - name: enable and start services
   service:
