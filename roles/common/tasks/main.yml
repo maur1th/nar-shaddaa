@@ -11,6 +11,7 @@
     - policycoreutils-python
     - python-firewall
     - tmux
+    - tuned  # performance profile management in Cockpit
 - name: set hostname
   hostname:
     name: "{{hostname}}"
