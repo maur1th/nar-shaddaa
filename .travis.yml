@@ -1,0 +1,10 @@
+---
+dist: trusty
+sudo: required
+
+# App
+services:
+  - docker
+script:
+  - docker build --tag maur1th/ansible .
+...
