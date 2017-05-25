@@ -7,5 +7,9 @@ services:
   - docker
 script:
   - docker build --tag maur1th/ansible .
-  - docker push maur1th/ansible
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push maur1th/ansible;
+    fi
 ...
