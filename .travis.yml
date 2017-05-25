@@ -7,4 +7,5 @@ services:
   - docker
 script:
   - docker build --tag maur1th/ansible .
+  - docker push maur1th/ansible
 ...
