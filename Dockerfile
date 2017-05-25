@@ -13,4 +13,5 @@ RUN set -ex \
         && pip install --no-cache-dir ansible \
         && apk del .build-deps
 
+WORKDIR /ansible
 CMD sh
