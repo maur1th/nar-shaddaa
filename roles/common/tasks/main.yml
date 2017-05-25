@@ -9,6 +9,7 @@
     - libselinux-python
     - policycoreutils-python
     - python-firewall
+    - tmux
 - name: create user
   user:
     name: "{{local_user}}"
