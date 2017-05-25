@@ -11,6 +11,11 @@
     state: present
     default: "{{item}}"
   with_items: [yes, no]
+- name: create configuration directory
+  file:
+    path: /var/lib/transmission/.config/transmission-daemon/
+    state: directory
+    mode: 0755
 - name: install configuration
   template:
     src: settings.json
