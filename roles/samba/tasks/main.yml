@@ -15,6 +15,14 @@
     state: present
     default: "{{item}}"
   with_items: [yes, no]
+- name: set other acl of {{storage_location}}
+  acl:
+    path: "{{storage_location}}"
+    etype: other
+    permissions: rwX
+    state: present
+    default: yes
+    recursive: yes
 - name: SELinux add file context mapping definition
   sefcontext:
     target: "{{storage_location}}(/.*)?"
