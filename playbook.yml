@@ -1,5 +1,5 @@
 ---
-- hosts: nar-shaddaa
+- hosts: all
   gather_facts: no
   become: yes
 

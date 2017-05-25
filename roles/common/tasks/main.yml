@@ -11,6 +11,9 @@
     - policycoreutils-python
     - python-firewall
     - tmux
+- name: set hostname
+  hostname:
+    name: "{{hostname}}"
 - name: create user
   user:
     name: "{{local_user}}"
