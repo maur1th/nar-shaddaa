@@ -23,14 +23,6 @@
     state: present
     default: yes
     recursive: yes
-- name: SELinux add file context mapping definition
-  sefcontext:
-    target: "{{storage_location}}(/.*)?"
-    setype: samba_share_t
-  register: filecontext
-- name: SELinux restore default security context
-  command: restorecon -R -v {{storage_location}}
-  when: filecontext.changed
 - name: install samba configuration
   template:
     src: smb.conf
@@ -41,7 +33,9 @@
     name: "{{item}}"
     enabled: yes
     state: started
-  with_items: "{{samba_services}}"
+  with_items:
+    - smb.service
+    - nmb.service
 - name: add firewall rules
   firewalld:
     service: samba

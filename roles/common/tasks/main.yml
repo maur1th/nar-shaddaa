@@ -7,7 +7,6 @@
   with_items:
     - htop
     - libselinux-python
-    - policycoreutils-python
     - python-firewall
     - tmux
     - tuned  # performance profile management in Cockpit
@@ -18,4 +17,10 @@
   user:
     name: "{{local_user}}"
     group: "{{local_user}}"
+
+# Put SELinux in permissive mode, logging actions that would be blocked.
+- name: set selinux to permissive
+  selinux:
+    policy: targeted
+    state: permissive
 ...
