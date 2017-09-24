@@ -1,5 +1,4 @@
 ---
-- include: bootstrap_python2.yml
 - name: gather facts
   setup:
 - name: install dependencies

@@ -1,2 +1,5 @@
 [all]
 192.168.1.60 hostname=nar-shaddaa
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
