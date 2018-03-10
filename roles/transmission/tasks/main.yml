@@ -1,6 +1,6 @@
 ---
 - name: install transmission-daemon
-  dnf:
+  apt:
     name: transmission-daemon
 - name: set transmission user acl of {{storage_location}}
   acl:
@@ -30,10 +30,11 @@
     name: transmission-daemon.service
     enabled: yes
     state: started
-- name: add firewall rules
-  firewalld:
-    port: 9091/tcp
-    permanent: true
-    immediate: yes
-    state: enabled
+
+# - name: add firewall rules
+#   firewalld:
+#     port: 9091/tcp
+#     permanent: true
+#     immediate: yes
+#     state: enabled
 ...

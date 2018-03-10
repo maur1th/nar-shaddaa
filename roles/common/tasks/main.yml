@@ -1,26 +1,38 @@
 ---
-- name: gather facts
-  setup:
 - name: install dependencies
-  dnf:
+  apt:
     name: "{{item}}"
   with_items:
-    - htop
-    - libselinux-python
-    - python-firewall
+    - acl
+    - locales
     - tmux
-    - tuned  # performance profile management in Cockpit
+
 - name: set hostname
   hostname:
     name: "{{hostname}}"
+
+- name: set timezone to Europe/Paris
+  timezone:
+    name: Europe/Paris
+- name: generate locale
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+- name: set locale
+  copy:
+    content: |
+      LANG=en_US.UTF-8
+      LC_ALL=en_US.UTF-8
+    dest: "/etc/default/locale"
+    owner: root
+    group: root
+    mode: 0644
+
+- group:
+    name: "{{local_user}}"
+    state: present
 - name: create user
   user:
     name: "{{local_user}}"
     group: "{{local_user}}"
-
-# Put SELinux in permissive mode, logging actions that would be blocked.
-- name: set selinux to permissive
-  selinux:
-    policy: targeted
-    state: permissive
 ...
