@@ -1,6 +1,6 @@
 ---
 - name: install samba
-  dnf:
+  apt:
     name: samba
 - name: create storage location
   file:
@@ -36,10 +36,11 @@
   with_items:
     - smb.service
     - nmb.service
-- name: add firewall rules
-  firewalld:
-    service: samba
-    permanent: true
-    immediate: yes
-    state: enabled
+
+# - name: add firewall rules
+#   firewalld:
+#     service: samba
+#     permanent: true
+#     immediate: yes
+#     state: enabled
 ...
