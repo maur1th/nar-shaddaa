@@ -35,4 +35,11 @@
   user:
     name: "{{local_user}}"
     group: "{{local_user}}"
+
+- name: add trim cron
+  cron:
+    name: "trim"
+    minute: "0"
+    hour: "5"
+    job: "/sbin/fstrim --all || true"
 ...
