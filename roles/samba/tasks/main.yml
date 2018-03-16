@@ -34,13 +34,6 @@
     enabled: yes
     state: started
   with_items:
-    - smb.service
-    - nmb.service
-
-# - name: add firewall rules
-#   firewalld:
-#     service: samba
-#     permanent: true
-#     immediate: yes
-#     state: enabled
+    - smbd.service
+    - nmbd.service
 ...
