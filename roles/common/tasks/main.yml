@@ -5,6 +5,7 @@
   with_items:
     - acl
     - locales
+    - smartmontools
     - tmux
     - vim
 
