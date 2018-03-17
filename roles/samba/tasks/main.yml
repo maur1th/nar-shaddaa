@@ -33,7 +33,5 @@
     name: "{{item}}"
     enabled: yes
     state: started
-  with_items:
-    - smbd.service
-    - nmbd.service
+  with_items: "{{samba_services}}"
 ...
