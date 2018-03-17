@@ -1,0 +1,5 @@
+---
+samba_services:
+  - smbd.service
+  - nmbd.service
+...
