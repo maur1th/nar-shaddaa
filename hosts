@@ -1,5 +1,5 @@
 [all]
-nar-shaddaa ansible_host=192.168.1.60
+home.maurin.io
 
 [all:vars]
 ansible_user=tm
