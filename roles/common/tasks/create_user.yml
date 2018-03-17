@@ -1,0 +1,20 @@
+---
+- name: create {{local_user}} group
+  group:
+    name: "{{local_user}}"
+    state: present
+- name: create {{local_user}} user
+  user:
+    name: "{{local_user}}"
+    group: "{{local_user}}"
+
+- name: add authorized_keys
+  lineinfile:
+    path: /home/{{local_user}}/.ssh/authorized_keys
+    line: "{{item}}"
+    create: yes
+    mode: 0600
+    owner: tm
+    group: tm
+  with_items: "{{authorized_keys}}"
+...
