@@ -5,6 +5,7 @@
   with_items:
     - acl
     - locales
+    - prometheus-node-exporter
     - smartmontools
     - tmux
     - vim
