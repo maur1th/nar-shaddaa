@@ -1,6 +1,4 @@
 ---
 - name: restart transmission
-  service:
-    name: transmission-daemon.service
-    state: restarted
+  command: invoke-rc.d transmission-daemon reload
 ...

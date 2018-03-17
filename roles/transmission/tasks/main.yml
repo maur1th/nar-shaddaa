@@ -6,35 +6,21 @@
   acl:
     path: "{{storage_location}}"
     etype: user
-    entity: transmission
+    entity: debian-transmission
     permissions: rwX
     state: present
     default: "{{item}}"
   with_items: [yes, no]
-- name: create configuration directory
-  file:
-    path: /var/lib/transmission/.config/transmission-daemon/
-    state: directory
-    mode: 0755
-    owner: transmission
-    group: transmission
 - name: install configuration
   template:
     src: settings.json
-    dest: /var/lib/transmission/.config/transmission-daemon/
-    owner: transmission
-    group: transmission
+    dest: /etc/transmission-daemon/
+    owner: debian-transmission
+    group: debian-transmission
   notify: restart transmission
 - name: enable and start services
   service:
     name: transmission-daemon.service
     enabled: yes
     state: started
-
-# - name: add firewall rules
-#   firewalld:
-#     port: 9091/tcp
-#     permanent: true
-#     immediate: yes
-#     state: enabled
 ...
