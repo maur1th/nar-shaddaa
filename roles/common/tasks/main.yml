@@ -6,6 +6,7 @@
     - acl
     - locales
     - tmux
+    - vim
 
 - name: set hostname
   hostname:
@@ -28,13 +29,7 @@
     group: root
     mode: 0644
 
-- group:
-    name: "{{local_user}}"
-    state: present
-- name: create user
-  user:
-    name: "{{local_user}}"
-    group: "{{local_user}}"
+- import_tasks: create_user.yml
 
 - name: add trim cron
   cron:
