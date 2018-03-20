@@ -8,13 +8,25 @@
     name: "{{local_user}}"
     group: "{{local_user}}"
 
+- name: sudo for {{local_user}} group
+  lineinfile:
+    dest: /etc/sudoers.d/{{local_user}}
+    state: present
+    create: yes
+    regexp: "^%{{local_user}}"
+    line: "%{{local_user}} ALL=(ALL:ALL) NOPASSWD:ALL"
+    owner: root
+    group: root
+    mode: 0440
+    validate: visudo -cf %s
+
 - name: add authorized_keys
   lineinfile:
     path: /home/{{local_user}}/.ssh/authorized_keys
     line: "{{item}}"
     create: yes
     mode: 0600
-    owner: tm
-    group: tm
+    owner: "{{local_user}}"
+    group: "{{local_user}}"
   with_items: "{{authorized_keys}}"
 ...
