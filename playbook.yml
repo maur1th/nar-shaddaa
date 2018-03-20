@@ -2,6 +2,7 @@
 - hosts: all
   gather_facts: no
   become: yes
+
   pre_tasks:
     - name: install python if missing
       raw: test -e /usr/bin/python || (apt update && apt install -y python-minimal)
