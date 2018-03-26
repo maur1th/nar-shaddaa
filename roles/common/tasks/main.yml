@@ -8,6 +8,7 @@
     - locales
     - ntp
     - prometheus-node-exporter
+    - python-pip
     - smartmontools
     - tmux
     - vim

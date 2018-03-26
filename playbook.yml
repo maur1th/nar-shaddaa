@@ -13,4 +13,5 @@
     - common
     - samba
     - transmission
+    - docker
 ...
