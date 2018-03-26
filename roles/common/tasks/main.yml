@@ -42,6 +42,13 @@
     hour: "5"
     job: "/sbin/fstrim --all || true"
 
+- copy:
+    src: btrfs-scrub
+    dest: /usr/local/sbin/btrfs-scrub
+    owner: root
+    group: root
+    mode: 0744
+
 # SSH config
 - name: install ssh config
   copy:
