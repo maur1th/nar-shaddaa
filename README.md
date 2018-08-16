@@ -1,5 +1,5 @@
 # nar-shaddaa
-Home server configuration for Fedora 26
+Home server configuration for Debian 9
 
 ## Features
 - Samba share
