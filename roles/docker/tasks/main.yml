@@ -5,11 +5,10 @@
 
 - name: install docker apt dependencies
   apt:
-    name: "{{item}}"
-  with_items:
-    - apt-transport-https
-    - ca-certificates
-    - software-properties-common
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
 
 - name: add docker GPG key
   apt_key:

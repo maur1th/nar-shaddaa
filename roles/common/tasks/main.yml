@@ -1,17 +1,16 @@
 ---
 - name: install dependencies
   apt:
-    name: "{{item}}"
-  with_items:
-    - acl
-    - curl
-    - locales
-    - ntp
-    - prometheus-node-exporter
-    - python-pip
-    - smartmontools
-    - tmux
-    - vim
+    name:
+      - acl
+      - curl
+      - locales
+      - ntp
+      - prometheus-node-exporter
+      - python-pip
+      - smartmontools
+      - tmux
+      - vim
 
 - name: set hostname
   hostname:
