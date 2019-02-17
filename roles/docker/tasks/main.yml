@@ -27,15 +27,16 @@
     update_cache: yes
   when: docker_apt.changed
 
-- name: pin {{package}} version (apt)
+- name: pin docker-ce version (apt)
   template:
     src: pin.j2
-    dest: /etc/apt/preferences.d/{{package}}.pref
+    dest: /etc/apt/preferences.d/docker-ce.pref
     owner: root
     group: root
     mode: "0644"
 
-- name: install {{package}}
+- name: install docker-ce
   apt:
-    name: "{{package}}"
+    name: "docker-ce"
+    state: latest
 ...
