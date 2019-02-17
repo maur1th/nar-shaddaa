@@ -1,0 +1,71 @@
+---
+- name: add router DNS
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^192.168.1.254 '
+    line: '192.168.1.254   mabbox.bytel.fr'
+- name: check if volume (pihole-etc) exists
+  command: docker volume inspect pihole-etc
+  register: result
+  ignore_errors: yes
+  changed_when: no
+- name: create volume (pihole-etc)
+  command: docker volume create pihole-etc
+  when: result is failed
+- name: check if volume (pihole-dnsmasqd) exists
+  command: docker volume inspect pihole-dnsmasqd
+  register: result
+  ignore_errors: yes
+  changed_when: no
+- name: create volume (pihole-dnsmasqd)
+  command: docker volume create pihole-dnsmasqd
+  when: result is failed
+- name: get IP address
+  shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="src") print $(i+1)}'
+  register: ip_address
+  changed_when: no
+- name: get interface
+  shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="dev") print $(i+1)}'
+  register: interface
+  changed_when: no
+- name: get IPv6 address
+  shell: ip -6 route get 2001:4860:4860::8888 | awk '{for(i=1;i<=NF;i++) if ($i=="src") print $(i+1)}'
+  register: ipv6_address
+  changed_when: no
+- name: get Timezone
+  command: date +%Z
+  register: timezone
+  changed_when: no
+- name: pull Pi-Hole image
+  docker_image:
+    name: pihole/pihole:latest
+- name: stop Pi-Hole
+  docker_container:
+    name: pihole
+    state: absent
+  ignore_errors: yes
+  register: container_stop
+  until: not container_stop.get("failed")
+  retries: 5
+  delay: 10
+- name: start Pi-Hole
+  docker_container:
+    name: pihole
+    image: pihole/pihole:latest
+    restart_policy: unless-stopped
+    network_mode: host
+    capabilities:
+      - NET_ADMIN
+    dns_servers:
+      - 127.0.0.1
+      - 8.8.8.8
+    volumes:
+      - pihole-etc:/etc/pihole/
+      - pihole-dnsmasqd:/etc/dnsmasq.d/
+    env:
+      INTERFACE: "{{interface.stdout}}"
+      ServerIP: "{{ip_address.stdout}}"
+      ServerIPv6: "{{ipv6_address.stdout}}"
+      TZ: "{{timezone.stdout}}"
+      WEBPASSWORD: "{{password}}"
+...
