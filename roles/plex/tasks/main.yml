@@ -1,0 +1,66 @@
+---
+# Plex needs 1900/udp
+- name: disable and stop minissdpd
+  service:
+    name: minissdpd
+    state: stopped
+    enabled: no
+
+# Get variables
+- name: get IP address
+  shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="src") print $(i+1)}'
+  register: ip_address
+  changed_when: no
+
+# Create volumes
+- name: check if volume (plex-transcode) exists
+  command: docker volume inspect plex-transcode
+  register: result
+  ignore_errors: yes
+  changed_when: no
+- name: create volume (plex-transcode)
+  command: docker volume create plex-transcode
+  when: result is failed
+- name: check if volume (plex-database) exists
+  command: docker volume inspect plex-database
+  register: result
+  ignore_errors: yes
+  changed_when: no
+- name: create volume (plex-database)
+  command: docker volume create plex-database
+  when: result is failed
+- name: stop Plex
+  docker_container:
+    name: plex
+    state: absent
+  ignore_errors: yes
+  register: container_stop
+  until: not container_stop.get("failed")
+  retries: 5
+  delay: 10
+
+# Start service
+- name: start Plex
+  docker_container:
+    name: plex
+    image: plexinc/pms-docker
+    restart_policy: unless-stopped
+    hostname: "{{ansible_hostname}}"
+    ports:
+    - 32400:32400/tcp
+    - 3005:3005/tcp
+    - 8324:8324/tcp
+    - 32469:32469/tcp
+    - 1900:1900/udp
+    - 32410:32410/udp
+    - 32412:32412/udp
+    - 32413:32413/udp
+    - 32414:32414/udp
+    volumes:
+    - plex-database:/config
+    - plex-transcode:/transcode
+    - /mnt/storage/:/data
+    env:
+      TZ: Europe/Paris
+      ADVERTISE_IP: "http://{{ip_address.stdout}}:32400/"
+...
