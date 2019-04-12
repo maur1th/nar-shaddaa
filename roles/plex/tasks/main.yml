@@ -44,6 +44,7 @@
   docker_container:
     name: plex
     image: plexinc/pms-docker
+    pull: yes
     restart_policy: unless-stopped
     hostname: "{{ansible_hostname}}"
     ports:
