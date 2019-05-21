@@ -39,7 +39,8 @@
 - name: pull Pi-Hole image
   docker_image:
     name: pihole/pihole:latest
-    pull: yes
+    source: pull
+    force_source: yes
 - name: stop Pi-Hole
   docker_container:
     name: pihole
