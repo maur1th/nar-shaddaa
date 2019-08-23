@@ -1,9 +1,12 @@
 ---
-- name: add router DNS
+- name: add local DNS records
   lineinfile:
     path: /etc/hosts
-    regexp: '^192.168.1.254 '
-    line: '192.168.1.254   mabbox.bytel.fr'
+    line: "{{ item }}"
+  loop:
+    - '192.168.1.1	livebox.lan'
+    - '192.168.1.60	home.maurin.io'
+    - '192.168.1.60	pi.hole'
 - name: check if volume (pihole-etc) exists
   command: docker volume inspect pihole-etc
   register: result
