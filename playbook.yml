@@ -5,7 +5,7 @@
 
   pre_tasks:
     - name: install python if missing
-      raw: test -e /usr/bin/python || (apt update && apt install -y python-minimal)
+      raw: test -e /usr/bin/python3 || (apt update && apt install -y python3-minimal)
       changed_when: no
     - setup:  # aka gather_facts
 
