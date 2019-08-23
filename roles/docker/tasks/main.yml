@@ -1,7 +1,7 @@
 ---
-- name: install docker pip dependency
-  pip:
-    name: docker-py
+- name: install docker python dependency
+  apt:
+    name: python3-docker
 
 - name: install docker apt dependencies
   apt:
