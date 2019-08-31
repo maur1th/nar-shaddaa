@@ -1,4 +1,14 @@
 ---
+- name: populate /etc/network/interfaces
+  template:
+    src: interfaces
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: '0644'
+  notify:
+    - restart dhcpd
+
 - name: install dependencies
   apt:
     name:

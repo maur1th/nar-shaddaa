@@ -11,7 +11,7 @@
 
   roles:
     - common
-    - dhcpd
+    - networking
     - samba
     - transmission
     - docker
