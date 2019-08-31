@@ -1,0 +1,26 @@
+---
+- name: install dependencies
+  apt:
+    name:
+      - isc-dhcp-server
+- name: get interface
+  shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="dev") print $(i+1)}'
+  register: interface
+  changed_when: no
+- name: populate /etc/default/isc-dhcp-server
+  template:
+    src: isc-dhcp-server
+    dest: /etc/default/isc-dhcp-server
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart dhcpd
+- name: populate /etc/dhcp/dhcpd.conf
+  template:
+    src: dhcpd.conf
+    dest: /etc/dhcp/dhcpd.conf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart dhcpd
+...
