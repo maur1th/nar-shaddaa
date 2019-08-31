@@ -27,10 +27,6 @@
   shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="src") print $(i+1)}'
   register: ip_address
   changed_when: no
-- name: get interface
-  shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="dev") print $(i+1)}'
-  register: interface
-  changed_when: no
 - name: get IPv6 address
   shell: ip -6 route get 2001:4860:4860::8888 | awk '{for(i=1;i<=NF;i++) if ($i=="src") print $(i+1)}'
   register: ipv6_address
@@ -58,17 +54,18 @@
     name: pihole
     image: pihole/pihole:latest
     restart_policy: unless-stopped
-    network_mode: host
-    capabilities:
-      - NET_ADMIN
     dns_servers:
-      - 127.0.0.1
-      - 8.8.8.8
+    - "127.0.0.1"
+    - "1.1.1.1"
+    ports:
+    - "53:53/tcp"
+    - "53:53/udp"
+    - "80:80/tcp"
+    - "443:443/tcp"
     volumes:
-      - pihole-etc:/etc/pihole/
-      - pihole-dnsmasqd:/etc/dnsmasq.d/
+    - pihole-etc:/etc/pihole/
+    - pihole-dnsmasqd:/etc/dnsmasq.d/
     env:
-      INTERFACE: "{{interface.stdout}}"
       ServerIP: "{{ip_address.stdout}}"
       ServerIPv6: "{{ipv6_address.stdout}}"
       TZ: "{{timezone.stdout}}"
