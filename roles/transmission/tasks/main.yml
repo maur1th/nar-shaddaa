@@ -11,6 +11,10 @@
     state: present
     default: "{{item}}"
   with_items: [yes, no]
+- name: stop service
+  service:
+    name: transmission-daemon.service
+    state: stopped
 - name: install configuration
   template:
     src: settings.json
@@ -18,7 +22,7 @@
     owner: debian-transmission
     group: debian-transmission
   notify: restart transmission
-- name: enable and start services
+- name: enable and start service
   service:
     name: transmission-daemon.service
     enabled: yes
