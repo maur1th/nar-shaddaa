@@ -13,4 +13,4 @@ iface eno2 inet static
     address 192.168.1.60
     gateway 192.168.1.1
 
-iface eno2 inet6 auto
+# iface eno2 inet6 auto
