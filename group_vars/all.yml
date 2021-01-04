@@ -1,5 +1,5 @@
 ---
-docker_version: "5:18.09"
+docker_version: "5:19.03"
 
 hostname: nar-shaddaa
 local_user: tm
