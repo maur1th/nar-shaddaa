@@ -11,6 +11,7 @@ iface lo inet loopback
 allow-hotplug eno2
 iface eno2 inet static
     address 192.168.1.60
-    gateway 192.168.1.1
+    gateway 192.168.1.254
+    dns-nameservers 127.0.0.1
 
 # iface eno2 inet6 auto
