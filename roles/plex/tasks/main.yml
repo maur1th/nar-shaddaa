@@ -64,4 +64,5 @@
     env:
       TZ: Europe/Paris
       ADVERTISE_IP: "http://{{ip_address.stdout}}:32400/"
+      ALLOWED_NETWORKS: "192.168.1.0/24,172.16.0.0/16"
 ...
