@@ -9,8 +9,10 @@ iface lo inet loopback
 
 # The primary network interface
 allow-hotplug eno2
+auto eno2
 iface eno2 inet static
     address 192.168.1.60
+    netmask 255.255.255.0
     gateway 192.168.1.254
     dns-nameservers 127.0.0.1
 
