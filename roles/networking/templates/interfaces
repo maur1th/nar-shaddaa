@@ -13,7 +13,7 @@ auto eno2
 iface eno2 inet static
     address 192.168.1.60
     netmask 255.255.255.0
-    gateway 192.168.1.254
+    gateway 192.168.1.1
     dns-nameservers 127.0.0.1
 
 iface eno2 inet6 auto
