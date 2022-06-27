@@ -2,13 +2,11 @@
 - hosts: home
   gather_facts: no
   become: yes
-
   pre_tasks:
     - name: install python if missing
       raw: test -e /usr/bin/python3 || (apt update && apt install -y python3-minimal)
       changed_when: no
     - setup:  # aka gather_facts
-
   roles:
     - common
     - name: networking
@@ -20,43 +18,13 @@
 - hosts: levillage
   gather_facts: no
   become: yes
-
   pre_tasks:
     - name: install python if missing
       raw: test -e /usr/bin/python3 || (apt update && apt install -y python3-minimal)
       changed_when: no
     - setup:  # aka gather_facts
-  tasks:
-    - name: install dependencies
-      apt:
-        name:
-          - curl
-          - locales
-          - ntp
-          - python3-pip
-          - smartmontools
-          - tmux
-          - vim
-    - name: set hostname
-      hostname:
-        name: "{{hostname}}"
-    - name: set timezone to Europe/Paris
-      timezone:
-        name: Europe/Paris
-    - name: generate locale
-      locale_gen:
-        name: en_US.UTF-8
-        state: present
-    - name: set locale
-      copy:
-        content: |
-          LANG=en_US.UTF-8
-          LC_ALL=en_US.UTF-8
-        dest: "/etc/default/locale"
-        owner: root
-        group: root
-        mode: 0644
   roles:
+    - common
     - name: networking
       host_ip: "192.168.1.31"
       router_ip: "192.168.1.1"
