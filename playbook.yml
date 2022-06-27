@@ -16,7 +16,4 @@
       ipv6_block: "2a01:cb1d:82cd:fe00::/56"
     - samba
     - transmission
-    - docker
-    - pihole
-    - plex
 ...

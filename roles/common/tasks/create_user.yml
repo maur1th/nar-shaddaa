@@ -7,8 +7,6 @@
   user:
     name: "{{local_user}}"
     group: "{{local_user}}"
-    groups:
-      - docker
 
 - name: sudo for {{local_user}} group
   lineinfile:
