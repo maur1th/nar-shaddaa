@@ -16,4 +16,8 @@ iface eno2 inet static
     gateway 192.168.1.1
     dns-nameservers 127.0.0.1
 
-iface eno2 inet6 auto
+# iface eno2 inet6 auto
+#     address 2a01:cb1d:82c6:1b00:9618:82ff:fe38:1559
+#     gateway fe80::6a3f:7dff:fe3a:9e30
+#     autoconf 1
+#     accept_ra 2
