@@ -8,16 +8,10 @@ auto lo
 iface lo inet loopback
 
 # The primary network interface
-allow-hotplug eno2
-auto eno2
-iface eno2 inet static
-    address 192.168.1.60
+allow-hotplug {{interface.stdout}}
+auto {{interface.stdout}}
+iface {{interface.stdout}} inet static
+    address {{host_ip}}
     netmask 255.255.255.0
     gateway {{router_ip}}
     dns-nameservers 127.0.0.1
-
-# iface eno2 inet6 auto
-#     address 2a01:cb1d:82c6:1b00:9618:82ff:fe38:1559
-#     gateway fe80::6a3f:7dff:fe3a:9e30
-#     autoconf 1
-#     accept_ra 2

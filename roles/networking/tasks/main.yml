@@ -1,4 +1,13 @@
 ---
+- name: get interface
+  shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="dev") print $(i+1)}'
+  register: interface
+  changed_when: no
+- name: disable service dhcpcd
+  ansible.builtin.systemd:
+    name: dhcpcd
+    enabled: no
+    state: stopped
 - name: populate /etc/network/interfaces
   template:
     src: interfaces
@@ -6,17 +15,11 @@
     owner: root
     group: root
     mode: '0644'
-  notify:
-    - restart dhcpd
 
 - name: install dependencies
   apt:
     name:
       - isc-dhcp-server
-- name: get interface
-  shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="dev") print $(i+1)}'
-  register: interface
-  changed_when: no
 - name: populate /etc/default/isc-dhcp-server
   template:
     src: isc-dhcp-server
@@ -33,4 +36,9 @@
     group: root
     mode: '0644'
   notify: restart dhcpd
+- name: Enable service isc-dhcp-server and ensure it is not masked
+  ansible.builtin.systemd:
+    name: isc-dhcp-server
+    enabled: yes
+    masked: no
 ...
