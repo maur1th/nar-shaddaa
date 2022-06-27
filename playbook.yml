@@ -13,6 +13,7 @@
     - common
     - name: networking
       host_ip: "192.168.1.60"
+      router_ip: "192.168.1.1"
     - samba
     - transmission
 ...
