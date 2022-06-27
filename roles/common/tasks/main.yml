@@ -6,8 +6,7 @@
       - curl
       - locales
       - ntp
-      - prometheus-node-exporter
-      - python-pip
+      - python3-pip
       - smartmontools
       - tmux
       - vim
