@@ -1,5 +1,5 @@
 ---
-blocklist_url: http://john.bitsurge.net/public/biglist.p2p.gz
+blocklist_url: https://github.com/Naunter/BT_BlockLists/raw/master/bt_blocklists.gz
 rpc_whitelist: 192.168.1.*
 peer_port: 52349
 ...
