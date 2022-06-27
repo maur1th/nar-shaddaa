@@ -33,12 +33,4 @@
     group: root
     mode: '0644'
   notify: restart dhcpd
-- name: populate /etc/dhcp/dhcpd6.conf
-  template:
-    src: dhcpd6.conf
-    dest: /etc/dhcp/dhcpd6.conf
-    owner: root
-    group: root
-    mode: '0644'
-  notify: restart dhcpd
 ...
