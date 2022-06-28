@@ -1,7 +1,7 @@
 ---
-- hosts: home
-  gather_facts: no
+- hosts: all
   become: yes
+  gather_facts: no
   pre_tasks:
     - name: install python if missing
       raw: test -e /usr/bin/python3 || (apt update && apt install -y python3-minimal)
@@ -9,23 +9,11 @@
     - setup:  # aka gather_facts
   roles:
     - common
-    - name: networking
-      host_ip: "192.168.1.60"
-      router_ip: "192.168.1.1"
+    - networking
+
+- hosts: home
+  become: yes
+  roles:
     - samba
     - transmission
-
-- hosts: levillage
-  gather_facts: no
-  become: yes
-  pre_tasks:
-    - name: install python if missing
-      raw: test -e /usr/bin/python3 || (apt update && apt install -y python3-minimal)
-      changed_when: no
-    - setup:  # aka gather_facts
-  roles:
-    - common
-    - name: networking
-      host_ip: "192.168.1.31"
-      router_ip: "192.168.1.1"
 ...
