@@ -3,6 +3,7 @@ home.maurin.io
 
 [home:vars]
 ansible_user=tm
+ansible_scp_extra_args="-O"
 hostname=nar-shaddaa
 
 [levillage]
