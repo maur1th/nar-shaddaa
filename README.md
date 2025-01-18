@@ -1,5 +1,5 @@
 # nar-shaddaa
-Home server configuration for Debian 9
+Home server configuration for Debian 11
 
 ## Features
 - DHCP Server
