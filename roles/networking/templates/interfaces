@@ -14,4 +14,4 @@ iface {{interface.stdout}} inet static
     address {{host_ip}}
     netmask 255.255.255.0
     gateway {{router_ip}}
-    dns-nameservers 127.0.0.1
+    dns-nameservers 1.1.1.1 1.0.0.1
