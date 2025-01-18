@@ -41,12 +41,19 @@
     hour: "5"
     job: "/sbin/fstrim --all || true"
 
-# SSH config
-- name: install ssh config
+- name: cp sshd_config
   copy:
     src: sshd_config
     dest: /etc/ssh/sshd_config
     owner: root
     group: root
   notify: restart sshd service
+
+- name: cp resolved.conf
+  copy:
+    src: resolved.conf
+    dest: /etc/systemd/resolved.conf
+    owner: root
+    group: root
+  notify: restart systemd-resolved service
 ...
