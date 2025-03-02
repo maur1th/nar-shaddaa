@@ -14,6 +14,8 @@
 - hosts: home
   become: yes
   roles:
-    - samba
-    - transmission
+    - homeassistant
+    - nginx
+    # - samba
+    # - transmission
 ...

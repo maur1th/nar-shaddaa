@@ -1,0 +1,4 @@
+---
+- name: reload nginx
+  command: systemctl reload nginx
+...

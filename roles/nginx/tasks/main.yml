@@ -1,0 +1,7 @@
+---
+- name: install nginx configuration files
+  template:
+    src: "nginx.conf"
+    dest: "/etc/nginx/sites-available/default"
+  notify: reload nginx
+...
