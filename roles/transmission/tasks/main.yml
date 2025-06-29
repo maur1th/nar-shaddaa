@@ -2,6 +2,15 @@
 - name: install transmission-daemon
   apt:
     name: transmission-daemon
+- name: Ensure ZFS dataset has support for POSIX ACLs
+  community.general.zfs:
+    name: "{{item}}"
+    state: present
+    extra_zfs_properties:
+      xattr: on
+      aclmode: passthrough
+      aclinherit: passthrough
+  with_items: "{{ zfs_volumes }}"
 - name: set transmission user acl of {{storage_location}}
   acl:
     path: "{{storage_location}}"
