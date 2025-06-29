@@ -10,7 +10,7 @@
       xattr: on
       aclmode: passthrough
       aclinherit: passthrough
-  with_items: "{{ zfs_volumes }}"
+  with_items: "{{zfs_volumes}}"
 - name: set transmission user acl of {{storage_location}}
   acl:
     path: "{{storage_location}}"
