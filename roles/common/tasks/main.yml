@@ -5,7 +5,7 @@
       - acl
       - curl
       - locales
-      - python3-pip
+      # - python3-pip
       - smartmontools
       - systemd-timesyncd
       - tmux
