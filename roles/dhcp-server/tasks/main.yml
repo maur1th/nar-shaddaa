@@ -1,26 +1,34 @@
 ---
-- name: get interface
-  shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="dev") print $(i+1)}'
-  register: interface
-  changed_when: no
 - name: disable service dhcpcd
   ansible.builtin.systemd:
     name: dhcpcd
     enabled: no
     state: stopped
   ignore_errors: yes
-# - name: populate /etc/network/interfaces
-#   template:
-#     src: interfaces
-#     dest: /etc/network/interfaces
-#     owner: root
-#     group: root
-#     mode: '0644'
+
+- name: Configure static IPv4 on the “static-ip” connection
+  community.general.nmcli:
+    conn_name: static-ip
+    type: ethernet
+    ip4: "{{ip4}}/24"
+    gw4: 192.168.1.1
+    dns4:
+      - 1.1.1.1
+      - 1.0.0.1
+    state: present
+- name: Bring up (activate) the “static-ip” connection
+  community.general.nmcli:
+    conn_name: static-ip
+    state: present
 
 - name: install dependencies
   apt:
     name:
       - isc-dhcp-server
+- name: get interface
+  shell: ip route get 8.8.8.8 | awk '{for(i=1;i<=NF;i++) if ($i=="dev") print $(i+1)}'
+  register: interface
+  changed_when: no
 - name: populate /etc/default/isc-dhcp-server
   template:
     src: isc-dhcp-server

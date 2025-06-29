@@ -20,11 +20,15 @@
 
 - hosts: dhcp_server
   become: yes
+  collections:
+    - community.general
   roles:
     - dhcp-server
 
 - hosts: levillage
   become: yes
+  collections:
+    - community.general
   roles:
     - dhcp-server
 ...
