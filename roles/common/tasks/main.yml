@@ -48,12 +48,4 @@
     owner: root
     group: root
   notify: restart sshd service
-
-- name: cp resolved.conf
-  copy:
-    src: resolved.conf
-    dest: /etc/systemd/resolved.conf
-    owner: root
-    group: root
-  notify: restart systemd-resolved service
 ...
