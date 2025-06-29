@@ -5,9 +5,9 @@
       - acl
       - curl
       - locales
-      - ntp
       - python3-pip
       - smartmontools
+      - systemd-timesyncd
       - tmux
       - vim
 
