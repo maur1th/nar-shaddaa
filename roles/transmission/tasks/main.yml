@@ -18,9 +18,9 @@
 - name: install configuration
   template:
     src: settings.json
-    dest: /etc/transmission-daemon/
-    owner: debian-transmission
-    group: debian-transmission
+    dest: /home/thomas/.config/transmission-daemon/
+    owner: thomas
+    group: thomas
   notify: restart transmission
 - name: enable and start service
   service:

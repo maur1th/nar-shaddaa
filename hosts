@@ -2,7 +2,7 @@
 nar-shaddaa.royal-kitchen.ts.net
 
 [home:vars]
-ansible_user=tm
+ansible_user=thomas
 ansible_scp_extra_args="-O"
 hostname=nar-shaddaa
 
