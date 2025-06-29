@@ -11,6 +11,7 @@ dhcp-server.royal-kitchen.ts.net
 
 [dhcp-server:vars]
 ansible_user=thomas
+router_ip=192.168.1.1
 
 [levillage]
 pi.levillage.co
@@ -18,3 +19,4 @@ pi.levillage.co
 [levillage:vars]
 ansible_user=pi
 hostname=raspberrypi
+router_ip=192.168.1.1
