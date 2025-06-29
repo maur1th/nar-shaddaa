@@ -1,0 +1,5 @@
+[dhcp-server]
+dhcp-server.royal-kitchen.ts.net
+
+[dhcp-server:vars]
+ansible_user=thomas
