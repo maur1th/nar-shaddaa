@@ -13,10 +13,10 @@
 - hosts: home
   become: yes
   roles:
-    - homeassistant
-    - nginx
+    - transmission
     # - samba
-    # - transmission
+    # - homeassistant
+    # - nginx
 
 - hosts: dhcp_server
   become: yes
