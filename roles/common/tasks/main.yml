@@ -4,6 +4,7 @@
     name:
       - acl
       - curl
+      - hdparm
       - locales
       # - python3-pip
       - smartmontools

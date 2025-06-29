@@ -1,7 +1,12 @@
 ---
-- name: install transmission-daemon
-  apt:
-    name: transmission-daemon
+# Ensure ZFS volumes have support for POSIX ACLs
+- name: Get list of all ZFS datasets
+  ansible.builtin.command: zfs list -H -o name
+  register: raw_zfs_list
+  changed_when: false
+- name: Set fact for ZFS datasets
+  ansible.builtin.set_fact:
+    zfs_datasets: "{{ raw_zfs_list.stdout_lines }}"
 - name: Ensure ZFS dataset has support for POSIX ACLs
   community.general.zfs:
     name: "{{item}}"
@@ -10,7 +15,39 @@
       xattr: on
       aclmode: passthrough
       aclinherit: passthrough
-  with_items: "{{zfs_volumes}}"
+  with_items: "{{zfs_datasets}}"
+
+# Enable write cache on ZFS disks
+- name: Discover ZFS pool disks
+  ansible.builtin.shell: |
+    zpool status -P \
+    | awk '/\/dev\// { print $1 }' \
+    | sort -u
+  register: zfs_disks_out
+  changed_when: false
+- name: Set fact for ZFS disks
+  ansible.builtin.set_fact:
+    zfs_disks: "{{ zfs_disks_out.stdout_lines }}"
+- name: Enable write cache on each disk immediately
+  ansible.builtin.command:
+    cmd: hdparm -W1 {{ item }}
+  loop: "{{ zfs_disks }}"
+  changed_when: false
+- name: Persist write-cache setting in /etc/hdparm.conf
+  ansible.builtin.blockinfile:
+    path: /etc/hdparm.conf
+    marker: "# {mark} ANSIBLE MANAGED for ZFS disks"
+    block: |
+      {% for disk in zfs_disks %}
+      {{ disk }} {
+          write_cache = on
+      }
+      {% endfor %}
+
+# Transmission setup
+- name: install transmission-daemon
+  apt:
+    name: transmission-daemon
 - name: set transmission user acl of {{storage_location}}
   acl:
     path: "{{storage_location}}"
