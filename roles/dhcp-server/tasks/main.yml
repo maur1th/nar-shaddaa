@@ -8,13 +8,14 @@
     name: dhcpcd
     enabled: no
     state: stopped
-- name: populate /etc/network/interfaces
-  template:
-    src: interfaces
-    dest: /etc/network/interfaces
-    owner: root
-    group: root
-    mode: '0644'
+  ignore_errors: yes
+# - name: populate /etc/network/interfaces
+#   template:
+#     src: interfaces
+#     dest: /etc/network/interfaces
+#     owner: root
+#     group: root
+#     mode: '0644'
 
 - name: install dependencies
   apt:

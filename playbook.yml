@@ -9,7 +9,6 @@
     - setup:  # aka gather_facts
   roles:
     - common
-    - networking
 
 - hosts: home
   become: yes
@@ -18,4 +17,14 @@
     - nginx
     # - samba
     # - transmission
+
+- hosts: dhcp-server
+  become: yes
+  roles:
+    - dhcp-server
+
+- hosts: levillage
+  become: yes
+  roles:
+    - dhcp-server
 ...
