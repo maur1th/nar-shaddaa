@@ -6,6 +6,12 @@ ansible_user=thomas
 ansible_scp_extra_args="-O"
 hostname=nar-shaddaa
 
+[dhcp-server]
+dhcp-server.royal-kitchen.ts.net
+
+[dhcp-server:vars]
+ansible_user=thomas
+
 [levillage]
 pi.levillage.co
 
