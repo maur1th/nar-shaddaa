@@ -1,0 +1,8 @@
+[levillage]
+pi.levillage.co
+
+[levillage:vars]
+ansible_user=pi
+hostname=raspberrypi
+router_ip=192.168.1.1
+ip4=TBD
