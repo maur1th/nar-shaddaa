@@ -18,7 +18,7 @@
     # - samba
     # - transmission
 
-- hosts: dhcp-server
+- hosts: dhcp_server
   become: yes
   roles:
     - dhcp-server

@@ -6,10 +6,10 @@ ansible_user=thomas
 ansible_scp_extra_args="-O"
 hostname=nar-shaddaa
 
-[dhcp-server]
+[dhcp_server]
 dhcp-server.royal-kitchen.ts.net
 
-[dhcp-server:vars]
+[dhcp_server:vars]
 ansible_user=thomas
 router_ip=192.168.1.1
 
