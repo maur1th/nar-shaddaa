@@ -1,0 +1,101 @@
+---
+- name: create docker network
+  docker_network:
+     name: homeassistant
+     driver: bridge
+     state: present
+
+- name: Create required directories
+  ansible.builtin.file:
+    path: "{{item}}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - "{{ansible_env.HOME}}/homeassistant/config"
+    - "{{ansible_env.HOME}}/mosquitto-data"
+    - "{{ansible_env.HOME}}/zigbee2mqtt-data"
+
+# https://www.zigbee2mqtt.io/guide/getting-started/#installation
+- name: stop mqtt
+  docker_container:
+    name: mqtt
+    state: absent
+  ignore_errors: yes
+  register: container_stop
+  until: not container_stop.get("failed")
+  retries: 5
+  delay: 10
+- name: start mqtt
+  docker_container:
+    name: mqtt
+    restart_policy: unless-stopped
+    networks:
+      - name: homeassistant
+        aliases:
+          - mqtt
+    image: eclipse-mosquitto:2.0
+    pull: yes
+    state: started
+    exposed_ports:
+      - 1883
+      - 9001
+    command: 'mosquitto -c /mosquitto-no-auth.conf'
+    volumes:
+      - "{{ansible_env.HOME}}/mosquitto-data:/mosquitto'"
+- name: stop zigbee2mqtt
+  docker_container:
+    name: zigbee2mqtt
+    state: absent
+  ignore_errors: yes
+  register: container_stop
+  until: not container_stop.get("failed")
+  retries: 5
+  delay: 10
+- name: start zigbee2mqtt
+  docker_container:
+    name: zigbee2mqtt
+    restart_policy: unless-stopped
+    networks:
+      - name: homeassistant
+        aliases:
+          - zigbee2mqtt
+    image: ghcr.io/koenkk/zigbee2mqtt
+    pull: yes
+    state: started
+    ports:
+      - 9080:8080
+    env:
+      TZ: "Europe/Paris"
+    volumes:
+      - "{{ansible_env.HOME}}/zigbee2mqtt-data:/app/data"
+      - "/run/udev:/run/udev:ro"
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+
+# # https://www.home-assistant.io/installation/generic-x86-64#install-home-assistant-container
+# - name: stop homeassistant
+#   docker_container:
+#     name: homeassistant
+#     state: absent
+#   ignore_errors: yes
+#   register: container_stop
+#   until: not container_stop.get("failed")
+#   retries: 5
+#   delay: 10
+# - name: start homeassistant
+#   docker_container:
+#     name: homeassistant
+#     privileged: true
+#     network_mode: host
+#     restart_policy: unless-stopped
+#     image: "ghcr.io/home-assistant/home-assistant:stable"
+#     pull: yes
+#     state: started
+#     exposed_ports:
+#       - 8123
+#     env:
+#       TZ: "Europe/Paris"
+#     volumes:
+#       - "{{ansible_env.HOME}}/homeassistant/config:/config"
+#       - "/run/dbus:/run/dbus:ro"
+...
