@@ -16,6 +16,7 @@
     - transmission
     # - samba
     # - homeassistant
+    - { role: pingvin, tags: ['pingvin'] }
     # - nginx
 
 - hosts: dhcp_server

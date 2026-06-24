@@ -1,0 +1,43 @@
+---
+- name: create pingvin data directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - "{{ pingvin_data_dir }}"
+    - "{{ pingvin_data_dir }}/images"
+
+- name: install pingvin config
+  ansible.builtin.template:
+    src: config.yaml
+    dest: "{{ pingvin_data_dir }}/config.yaml"
+    mode: '0644'
+
+- name: stop pingvin-share
+  docker_container:
+    name: pingvin-share
+    state: absent
+  ignore_errors: yes
+  register: container_stop
+  until: not container_stop.get("failed")
+  retries: 5
+  delay: 10
+
+- name: start pingvin-share
+  docker_container:
+    name: pingvin-share
+    image: "{{ pingvin_image }}"
+    pull: yes
+    restart_policy: unless-stopped
+    state: started
+    ports:
+      - "{{ pingvin_port }}:3000"
+    env:
+      TZ: "Europe/Paris"
+      TRUST_PROXY: "{{ pingvin_trust_proxy | string | lower }}"
+    volumes:
+      - "{{ pingvin_data_dir }}:/opt/app/backend/data"
+      - "{{ pingvin_data_dir }}/images:/opt/app/frontend/public/img"
+      - "{{ pingvin_data_dir }}/config.yaml:/opt/app/config.yaml"
+...

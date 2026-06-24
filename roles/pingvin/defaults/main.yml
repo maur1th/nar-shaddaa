@@ -1,0 +1,11 @@
+---
+pingvin_image: ghcr.io/smp46/pingvin-share-x
+pingvin_port: 3000
+pingvin_data_dir: /mnt/storage/pingvin
+# Largest accepted share size, in bytes. Bumped well above the 1GB default
+# so a single ~10GB video upload isn't rejected.
+pingvin_max_size: 21474836480  # 20 GiB
+# Set to true only once a reverse proxy (e.g. nginx) sits in front and sends
+# X-Forwarded-For. Plain port-forwarding/NAT is not a proxy, so this is false.
+pingvin_trust_proxy: false
+...
