@@ -1,0 +1,14 @@
+---
+# Public domain for the Pingvin Share file-drop vhost (e.g. upload.example.com).
+# Leave empty to skip the Pingvin vhost entirely.
+pingvin_domain: ""
+# Flip to true once a Let's Encrypt cert exists for pingvin_domain — i.e. after
+# port-forwarding + public DNS are live and certbot has run. While false, the
+# vhost serves plain HTTP so nginx won't fail to start on a missing cert.
+pingvin_tls_enabled: false
+# Where Pingvin Share listens on the host.
+pingvin_upstream: "127.0.0.1:3000"
+# Max upload body size (0 = no limit). Must comfortably exceed the video size;
+# nginx's 1MB default would otherwise reject the chunked uploads.
+pingvin_max_body: "0"
+...

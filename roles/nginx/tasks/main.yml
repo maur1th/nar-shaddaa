@@ -4,4 +4,32 @@
     src: "nginx.conf"
     dest: "/etc/nginx/sites-available/default"
   notify: reload nginx
+
+# --- Pingvin Share file-drop vhost (only when a domain is configured) ---
+- name: install certbot
+  ansible.builtin.apt:
+    name: certbot
+  when: pingvin_domain | length > 0
+
+- name: ensure ACME webroot exists
+  ansible.builtin.file:
+    path: /var/www/certbot
+    state: directory
+    mode: '0755'
+  when: pingvin_domain | length > 0
+
+- name: install pingvin nginx vhost
+  ansible.builtin.template:
+    src: pingvin.conf
+    dest: /etc/nginx/sites-available/pingvin
+  when: pingvin_domain | length > 0
+  notify: reload nginx
+
+- name: enable pingvin nginx vhost
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/pingvin
+    dest: /etc/nginx/sites-enabled/pingvin
+    state: link
+  when: pingvin_domain | length > 0
+  notify: reload nginx
 ...
